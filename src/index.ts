@@ -5,6 +5,7 @@ import { todo } from './aboutme/todo' // <--- 1. Import todo app
 import { getCookie } from 'hono/cookie'
 import { verify } from 'hono/jwt'
 import { vault } from './aboutme/vault'
+import { blog } from './aboutme/blog'
 
 type Bindings = {
   todo_db: D1Database
@@ -31,6 +32,7 @@ app.use('/*', cors({
 app.route('/api/auth', auth)
 app.route('/vault', vault);
 app.route('/todos', todo) // <--- 2. Mount todo app at /todos prefix
+app.route('/api/blog', blog)
 
 // Auth Me Profile Route
 app.get('/api/me', async (c) => {
