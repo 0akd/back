@@ -9,12 +9,16 @@
     "db:migrate:local": "wrangler d1 migrations apply todo-db --local",
     "r": "wrangler d1 migrations apply todo-db --remote",
     "db:studio": "drizzle-kit studio",
-       "local": "wrangler d1 execute todo-db --local --file=./schema.sql",
-    "remote": "wrangler d1 execute todo-db --remote --file=./schema.sql"
+    "local": "wrangler d1 execute todo-db --local --file=./schema.sql",
+    "remote": "wrangler d1 execute todo-db --remote --file=./schema.sql",
+    "altlocal": "wrangler d1 execute todo-db --local --file=./alter.sql",
+    "altremote": "wrangler d1 execute todo-db --remote --file=./alter.sql"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "drizzle-orm": "^0.45.2",
-    "hono": "^4.12.18"
+    "hono": "^4.12.18",
+    "openai": "^6.38.0"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260515.1",

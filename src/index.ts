@@ -6,6 +6,11 @@ import { getCookie } from 'hono/cookie'
 import { verify } from 'hono/jwt'
 import { vault } from './aboutme/vault'
 import { blog } from './aboutme/blog'
+import { news } from './aboutme/news'
+import { images } from './aboutme/images'
+import { social } from './aboutme/social'
+import { gpt } from './aboutme/grok'
+import { book } from './aboutme/book'
 
 type Bindings = {
   todo_db: D1Database
@@ -17,7 +22,7 @@ const app = new Hono<{ Bindings: Bindings }>()
 // CORS Middleware
 app.use('/*', cors({
   origin: (origin) => {
-    if (origin === 'https://arjundubey.com' || origin === 'http://localhost:4321') {
+    if (origin === 'https://who.arjundubey.com' || origin === 'http://localhost:4321') {
       return origin;
     }
     return 'http://localhost:4321';
@@ -29,11 +34,15 @@ app.use('/*', cors({
 }))
 
 // Route Mounting
+app.route('/api/books', book)
 app.route('/api/auth', auth)
 app.route('/vault', vault);
 app.route('/todos', todo) // <--- 2. Mount todo app at /todos prefix
 app.route('/api/blog', blog)
-
+app.route('/api/news', news)
+app.route('/api/images', images)
+app.route('/api/socials', social)
+app.route('/api/gpt', gpt)
 // Auth Me Profile Route
 app.get('/api/me', async (c) => {
   const authHeader = c.req.header('Authorization');
