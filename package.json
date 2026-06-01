@@ -16,13 +16,16 @@
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
+    "cheerio": "^1.2.0",
     "drizzle-orm": "^0.45.2",
     "hono": "^4.12.18",
-    "openai": "^6.38.0"
+    "openai": "^6.38.0",
+    "puppeteer": "^25.0.4",
+    "puppeteer-real-browser": "^1.4.4"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260515.1",
     "drizzle-kit": "^0.31.10",
-    "wrangler": "^4.4.0"
+    "wrangler": "^4.93.0"
   }
 }
