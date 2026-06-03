@@ -12,6 +12,7 @@ import { social } from './aboutme/social'
 import { gpt } from './aboutme/grok'
 import { book } from './aboutme/book'
 import { scraper } from './aboutme/scraper'
+import { reddit } from './aboutme/reddit'
 
 type Bindings = {
   todo_db: D1Database
@@ -45,6 +46,7 @@ app.route('/api/images', images)
 app.route('/api/socials', social)
 app.route('/api/gpt', gpt)
 app.route('/api/scrape', scraper)
+app.route('/api/reddit', reddit) 
 // Auth Me Profile Route
 app.get('/api/me', async (c) => {
   const authHeader = c.req.header('Authorization');

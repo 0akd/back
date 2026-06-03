@@ -1,1 +1,1 @@
-ALTER TABLE categories ADD COLUMN description TEXT;
+ALTER TABLE todos ADD COLUMN whiteboard_json TEXT;
