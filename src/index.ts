@@ -2,7 +2,7 @@
 import { Hono } from 'hono'
 import { cors } from 'hono/cors' 
 import { auth } from './aboutme/auth'
-import { todo } from './aboutme/todo' 
+
 import { getCookie } from 'hono/cookie'
 import { verify } from 'hono/jwt'
 import { vault } from './aboutme/vault'
@@ -12,10 +12,10 @@ import { images } from './aboutme/images'
 import { social } from './aboutme/social'
 import { gpt } from './aboutme/grok'
 import { book } from './aboutme/book'
-import { scraper } from './aboutme/scraper'
-import { reddit } from './aboutme/reddit'
+
 import { movies } from './aboutme/movies'
 import { habity } from './aboutme/habity';
+import { content } from './aboutme/content'
 
 type Bindings = {
   todo_db: D1Database
@@ -39,16 +39,17 @@ app.use('/*', cors({
 app.route('/api/books', book)
 app.route('/api/auth', auth)
 app.route('/vault', vault);
-app.route('/todos', todo) 
+
 app.route('/api/blog', blog)
 app.route('/api/news', news)
 app.route('/api/images', images)
 app.route('/api/socials', social)
 app.route('/api/gpt', gpt)
-app.route('/api/scrape', scraper)
+
 app.route('/api/movies', movies)
-app.route('/api/reddit', reddit) 
-app.route('/api/habity', habity);
+
+app.route('/api/habity', habity)
+app.route('/api/content', content)
 
 // Auth Me Profile Route
 app.get('/api/me', async (c) => {
