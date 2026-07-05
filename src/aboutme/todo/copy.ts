@@ -16,9 +16,9 @@ copyRouter.post('/:id/copy', async (c) => {
     const targetCat = category_id !== undefined ? category_id : t.category_id;
     
     const { success } = await c.env.todo_db.prepare(`
-      INSERT INTO todos (title, description, position, steps, trial_level, category_id)
-      VALUES (?, ?, ?, ?, ?, ?)
-    `).bind(`${t.title} (Copy)`, t.description, t.position, t.steps, t.trial_level, targetCat).run();
+      INSERT INTO todos (title, description, position, steps, trial_level, category_id, target_value, lap_duration, lap_count_target, lap_current_count)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0)
+    `).bind(`${t.title} (Copy)`, t.description, t.position, t.steps, t.trial_level, targetCat, t.target_value, t.lap_duration, t.lap_count_target).run();
     
     return c.json({ success });
   } catch (err: any) {
@@ -48,9 +48,9 @@ copyRouter.post('/categories/:id/copy', async (c) => {
       const { results: todos } = await db.prepare(`SELECT * FROM todos WHERE category_id = ?`).bind(currentCatId).all();
       for (const t of todos as any[]) {
         await db.prepare(`
-          INSERT INTO todos (title, description, position, steps, trial_level, category_id)
-          VALUES (?, ?, ?, ?, ?, ?)
-        `).bind(t.title, t.description, t.position, t.steps, t.trial_level, newCatId).run();
+          INSERT INTO todos (title, description, position, steps, trial_level, category_id, target_value, lap_duration, lap_count_target, lap_current_count)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0)
+        `).bind(t.title, t.description, t.position, t.steps, t.trial_level, newCatId, t.target_value, t.lap_duration, t.lap_count_target).run();
       }
       
       const { results: subcats } = await db.prepare(`SELECT id FROM categories WHERE parent_id = ?`).bind(currentCatId).all();

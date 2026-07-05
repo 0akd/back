@@ -5,7 +5,6 @@ import { generatePromptTree } from './helpers';
 
 export const summaryRouter = new Hono<{ Bindings: Bindings }>();
 
-const GROQ_API_KEY = 'REDACTED';
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const GROQ_MODEL = 'llama-3.3-70b-versatile';
 
@@ -42,8 +41,14 @@ CRITICAL INSTRUCTIONS:
 
     const response = await fetch(GROQ_API_URL, {
       method: 'POST',
-      headers: { 'Authorization': `Bearer ${GROQ_API_KEY}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: GROQ_MODEL, messages: [{ role: 'user', content: prompt }] })
+      headers: { 
+        'Authorization': `Bearer ${c.env.GROQ_API_KEY}`,   // ← Fixed
+        'Content-Type': 'application/json' 
+      },
+      body: JSON.stringify({ 
+        model: GROQ_MODEL, 
+        messages: [{ role: 'user', content: prompt }] 
+      })
     });
 
     if (!response.ok) throw new Error(`Groq error: ${response.statusText}`);

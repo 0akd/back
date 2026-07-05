@@ -7,6 +7,9 @@
   "alias": {
     "typescript": "./empty.js"
   },
+  "triggers": {
+    "crons": ["*/15 * * * *"]
+  },
   "d1_databases": [
     {
       "binding": "todo_db",

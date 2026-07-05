@@ -36,7 +36,7 @@ export function normalizeSteps(steps: any[] = []): any[] {
 export function normalizeTrialLevel(level: any): number {
   const num = parseInt(String(level), 10);
   if (isNaN(num)) return 0;
-  return Math.max(0, Math.min(3, num));
+  return Math.max(0, num);
 }
 
 export function buildCategoryTree(categories: any[]): any[] {
@@ -82,6 +82,8 @@ export async function getDescendantCategoryIds(db: D1Database, catId: number): P
   }
 }
 
+// ... (keep all the other helper functions exactly as they are)
+
 export function generatePromptTree(categories: any[], todos: any[]): string {
   const todosByCat = new Map<number | null, any[]>();
   todosByCat.set(null, []); 
@@ -106,7 +108,12 @@ export function generatePromptTree(categories: any[], todos: any[]): string {
       for (const t of catTodos) {
          const status = t.completed ? 'Finished' : 'Not Finished';
          const tDesc = t.description ? ` | Description: ${t.description}` : '';
-         textOutput += `[TODO LEAF] ${currentPath}-/${t.title}/ | Status: [${status}]${tDesc}\n`;
+         const isTimer = t.lap_duration != null && t.lap_duration > 0;
+         const isLapCounter = t.lap_count_target != null && t.lap_count_target > 0;
+         const isTick = !isTimer && !isLapCounter && t.target_value == 1;
+         
+         const typeLabel = isTick ? 'tick' : isTimer ? 'timer' : isLapCounter ? 'lap-counter' : 'counter';
+         textOutput += `[TODO LEAF] ${currentPath}-/${t.title}/ | Status: [${status}] | Type: ${typeLabel}${tDesc}\n`;
       }
 
       if (cat.children && cat.children.length > 0) {
@@ -123,7 +130,12 @@ export function generatePromptTree(categories: any[], todos: any[]): string {
     for (const t of rootTodos) {
        const status = t.completed ? 'Finished' : 'Not Finished';
        const tDesc = t.description ? ` | Description: ${t.description}` : '';
-       textOutput += `[TODO LEAF] /Uncategorized/-/${t.title}/ | Status: [${status}]${tDesc}\n`;
+       const isTimer = t.lap_duration != null && t.lap_duration > 0;
+       const isLapCounter = t.lap_count_target != null && t.lap_count_target > 0;
+       const isTick = !isTimer && !isLapCounter && t.target_value == 1;
+       
+       const typeLabel = isTick ? 'tick' : isTimer ? 'timer' : isLapCounter ? 'lap-counter' : 'counter';
+       textOutput += `[TODO LEAF] /Uncategorized/-/${t.title}/ | Status: [${status}] | Type: ${typeLabel}${tDesc}\n`;
     }
   }
 

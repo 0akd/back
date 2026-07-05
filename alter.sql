@@ -1,1 +1,2 @@
-ALTER TABLE todos ADD COLUMN whiteboard_json TEXT;
+ALTER TABLE todos ADD COLUMN lap_count_target INTEGER DEFAULT NULL;
+ALTER TABLE todos ADD COLUMN lap_current_count INTEGER DEFAULT 0;
